@@ -37,32 +37,34 @@ describe("About Applying What We Have Learnt", function() {
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
 
-      var productsICanEat = [];
-
       /* solve using filter() & all() / any() */
+      productsICanEat = _.reject(products, function(product){ return _.contains(product.ingredients, "mushrooms") || product.containsNuts === true});
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
+
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (imperative)", function () {
-    
+
     var sum = 0;
     for(var i=1; i<1000; i+=1) {
       if (i % 3 === 0 || i % 5 === 0) {
         sum += i;
       }
     }
-    
-    expect(sum).toBe(FILL_ME_IN);
+
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
 
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    /* try chaining range() and reduce() */
+    //says _.union is not a recognized function. Is this because javascript-koans uses an old version of the underscore.js library?
+    var sum = _.reduce(_.union(_.range(0,1000,3), _.range(0,1000,5)), function(memo, num){ return memo + num; }, 0);
 
-    expect(233168).toBe(FILL_ME_IN);
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
@@ -75,15 +77,21 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
+    _.chain(products)
+      .map(function(product){ return product.ingredients; })
+      .flatten()
+      .each(function(ingredient) {
+        ingredientCount[ingredient] = (ingredientCount[ingredient] || 0) + 1;
+      });
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
